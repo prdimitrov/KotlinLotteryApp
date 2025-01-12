@@ -1,3 +1,5 @@
 <resources>
     <string name="app_name">KotlinLotteryApp</string>
+    <string name="get_numbers">Get Numbers</string>
+    <string name="enter_username">Enter username</string>
 </resources>
