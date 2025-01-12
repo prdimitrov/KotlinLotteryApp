@@ -7,6 +7,7 @@ import android.os.Bundle
 import android.widget.Button
 import android.widget.EditText
 import android.widget.ImageView
+import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
@@ -22,6 +23,7 @@ class MainActivity : AppCompatActivity() {
 
         kotlinImage = findViewById(R.id.kotlinImageView)
         usernameInput = findViewById(R.id.usernameEditText)
+        getNumbersBtn = findViewById(R.id.getNumbersBtn)
 
         val rotationAnimator = ObjectAnimator.ofFloat(kotlinImage, "rotation", 0f, 360f)
         rotationAnimator.duration = 1000
@@ -41,10 +43,15 @@ class MainActivity : AppCompatActivity() {
         hintColorAnimator.start()
 
         getNumbersBtn.setOnClickListener {
-            var username: String = usernameInput.text.toString()
-            val i: Intent = Intent(applicationContext, SecondActivity::class.java)
-            i.putExtra("username", username)
-            startActivity(i)
+            var username: String = usernameInput.text.toString().trim()
+
+            if (username.isEmpty()) {
+                Toast.makeText(applicationContext, "Username should not be empty!", Toast.LENGTH_SHORT).show()
+            } else {
+                val i: Intent = Intent(applicationContext, SecondActivity::class.java)
+                i.putExtra("username", username)
+                startActivity(i)
+            }
         }
     }
 }

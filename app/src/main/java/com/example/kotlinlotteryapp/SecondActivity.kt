@@ -2,6 +2,7 @@ package com.example.kotlinlotteryapp
 
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
+import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
 import android.widget.ImageView
@@ -41,9 +42,48 @@ class SecondActivity : AppCompatActivity() {
         }
         textColorAnimator.start()
 
+        val randomNumbers: String = generateRandomNumbers()
+        lotteryNumbers.text = randomNumbers
+
+        val username = receiveUsername()
+
+
 
         shareButton.setOnClickListener {
-
+            shareResult(username, randomNumbers)
         }
+    }
+
+    private fun generateRandomNumbers(): String {
+        // Create list of random numbers
+        val randomNumbers = List(6) {
+            /*
+            lambda expression to generate random numbers
+            between 1 and 49
+             */
+            (1..49).random()
+
+            // Using Java util's Random!
+//            val random = Random()
+//            val randomNumber = random.nextInt(50)
+        }
+        return randomNumbers.joinToString(" ")
+    }
+
+    private fun receiveUsername(): String {
+        // Retrieve the extras that were added to an INTENT
+        val bundle: Bundle? = intent.extras
+
+        return bundle?.getString("username").toString()
+    }
+
+    private fun shareResult(username: String, generatedNumbers: String) {
+        // Implicit Intent
+        val i = Intent(Intent.ACTION_SEND)
+
+        i.setType("text/plain")
+        i.putExtra(Intent.EXTRA_SUBJECT, "$username generated these lottery numbers")
+        i.putExtra(Intent.EXTRA_TEXT, "The lottery numbers are: $generatedNumbers")
+        startActivity(i)
     }
 }
