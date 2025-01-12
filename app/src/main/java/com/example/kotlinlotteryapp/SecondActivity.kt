@@ -2,49 +2,48 @@ package com.example.kotlinlotteryapp
 
 import android.animation.ObjectAnimator
 import android.animation.ValueAnimator
-import android.content.Intent
 import android.os.Bundle
 import android.widget.Button
-import android.widget.EditText
 import android.widget.ImageView
+import android.widget.TextView
 import androidx.activity.enableEdgeToEdge
 import androidx.appcompat.app.AppCompatActivity
 import androidx.core.content.ContextCompat
 
-class MainActivity : AppCompatActivity() {
+class SecondActivity : AppCompatActivity() {
+    private lateinit var shareButton: Button
+    private lateinit var lotteryNumbers: TextView
     private lateinit var kotlinImage: ImageView
-    private lateinit var usernameInput: EditText
-    private lateinit var getNumbersBtn: Button
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_main)
+        setContentView(R.layout.activity_second)
 
         kotlinImage = findViewById(R.id.kotlinImageView)
-        usernameInput = findViewById(R.id.usernameEditText)
+        shareButton = findViewById(R.id.shareButton)
+        lotteryNumbers = findViewById(R.id.lotteryNumbers)
 
         val rotationAnimator = ObjectAnimator.ofFloat(kotlinImage, "rotation", 0f, 360f)
         rotationAnimator.duration = 1000
         rotationAnimator.repeatCount = ObjectAnimator.INFINITE
         rotationAnimator.start()
 
-        val hintColorAnimator = ValueAnimator.ofArgb(
+        val textColorAnimator = ValueAnimator.ofArgb(
             ContextCompat.getColor(this, android.R.color.white),
             ContextCompat.getColor(this, android.R.color.black)
         )
-        hintColorAnimator.duration = 1000
-        hintColorAnimator.repeatCount = ValueAnimator.INFINITE
-        hintColorAnimator.addUpdateListener {
-            val color = it.animatedValue as Int
-            usernameInput.setHintTextColor(color)
+        textColorAnimator.duration = 1000
+        textColorAnimator.repeatCount = ValueAnimator.INFINITE
+        textColorAnimator.addUpdateListener { animator ->
+            val color = animator.animatedValue as Int
+            lotteryNumbers.setTextColor(color)
         }
-        hintColorAnimator.start()
+        textColorAnimator.start()
 
-        getNumbersBtn.setOnClickListener {
-            var username: String = usernameInput.text.toString()
-            val i: Intent = Intent(applicationContext, SecondActivity::class.java)
-            i.putExtra("username", username)
-            startActivity(i)
+
+        shareButton.setOnClickListener {
+
         }
     }
 }
